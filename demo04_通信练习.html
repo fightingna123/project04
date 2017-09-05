@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="js/vue.js"></script>
+    <title></title>
+</head>
+<body>
+
+<div id="example">
+    <p>{{msg}}</p>
+    <chatroom></chatroom>
+</div>
+
+<script id="lucyTpl" type="text/x-template">
+    <div>
+        萍萍:<input type="text" v-model="text"/>
+        <button @click="sendToRoom">发送</button>
+    </div>
+</script>
+
+<script id="mikeTpl" type="text/x-template">
+    <div>
+        娜娜:<input type="text" v-model="text"/>
+        <button @click="sendToRoom">发送</button>
+    </div>
+</script>
+
+<script id="chatTpl" type="text/x-template">
+    <div>
+        <ul>
+            <li v-for="tmp in chatList">{{tmp}}</li>
+        </ul>
+        <hr/>
+        <lucy></lucy>
+        <br/>
+        <mike></mike>
+    </div>
+</script>
+
+
+
+
+<script>
+    Vue.component('lucy',{
+        data:function(){
+            return {
+                text:''
+            }
+        },
+        methods:{
+            sendToRoom:function(){
+                //让chatroom组件中的数组chatList插入一条数据
+                //events up
+                //$parent
+                console.log(this.$parent.chatList);
+                this.$parent.chatList.push("温婉:"+this.text);
+            }
+        },
+        template:'#lucyTpl'
+    });
+    Vue.component('mike',{
+        data:function(){
+            return {
+                text:''
+            }
+        },
+        methods:{
+            sendToRoom:function(){
+                this.$parent.chatList.push("娜娜:"+this.text)
+            }
+        },
+        template:'#mikeTpl'
+    });
+    Vue.component('chatroom',{
+        data:function(){
+            return {
+                chatList:[]
+            }
+        },
+        template:'#chatTpl'
+    });
+
+    new Vue({
+        el: '#example',
+        data: {
+            msg: 'Hello'
+        }
+    })
+
+
+</script>
+
+</body>
+</html>
